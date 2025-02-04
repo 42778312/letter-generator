@@ -1,100 +1,272 @@
-import Image from "next/image";
+"use client";
+import Head from "next/head";
+import React, { useState } from "react";
+
+const init_data = {
+  senderName: "",
+  receiverName: "",
+  senderStreet: "",
+  senderCity: "",
+  receiverStreet: "",
+  senderPlz: "",
+  receiverPlzAndCity: "",
+  senderNumber: "",
+  senderEmail: "",
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [data, setData] = useState(init_data);
+  const content = {
+    title: "Brief",
+    date:
+      "Datum : " +
+      new Date().getDate() +
+      " " +
+      new Date().toLocaleString("de-DE", { month: "long" }) +
+      " " +
+      new Date().getFullYear(),
+  };
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  return (
+    <div className="flex flex-col min-h-screen bg-gray-200">
+      <Head>
+        <title>{content?.title}</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet"
+        />
+        <style>
+          {`
+            @media print {
+              @page {
+                size: A4;
+                margin: 20mm;
+              }
+              body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+              }
+              .print-content {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+              }
+            }
+          `}
+        </style>
+      </Head>
+
+      <header className="py-8 print:hidden">
+        <h1 className="font-bold text-center text-5xl text-gray-800">
+          {content?.title}
+        </h1>
+      </header>
+
+      <main className="flex flex-row flex-1 gap-4 px-4 print:p-0">
+        {/* Form Section - 30% width */}
+        <section className="w-[20%] px-4 py-6 space-y-4 print:hidden">
+          <div>
+            <div>Absender</div>
+            <label
+              htmlFor="senderName"
+              className="block text-sm font-medium text-gray-700"
+            ></label>
+            <input
+              className="px-4 py-2 mt-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm rounded-md"
+              value={data?.senderName}
+              type="text"
+              id="senderName"
+              onChange={(event) => {
+                setData({ ...data, senderName: event.target.value.toString() });
+              }}
+              maxLength={50}
+              placeholder="Alex Mustermann"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+          </div>
+          <div>
+            <label
+              htmlFor="senderStreet"
+              className="block text-sm font-medium text-gray-700"
+            ></label>
+            <input
+              className="px-4 py-2 mt-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm rounded-md"
+              value={data?.senderStreet}
+              type="text"
+              id="senderStreet"
+              onChange={(event) => {
+                setData({
+                  ...data,
+                  senderStreet: event.target.value.toString(),
+                });
+              }}
+              maxLength={50}
+              placeholder="Beispielstraße 123"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="senderPlz"
+              className="block text-sm font-medium text-gray-700"
+            ></label>
+            <input
+              className="px-4 py-2 mt-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm rounded-md"
+              value={data?.senderPlz + data?.senderCity}
+              type="text"
+              id="ns2"
+              onChange={(event) => {
+                setData({
+                  ...data,
+                  senderPlz: event.target.value.toLowerCase(),
+                  senderCity: "",
+                });
+              }}
+              maxLength={50}
+              placeholder="12345, Beispielstadt"
+            />
+          </div>
+          <div>
+            <div>Empäfnger</div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            ></label>
+            <input
+              className="px-4 py-2 mt-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm rounded-md"
+              value={data?.receiverName}
+              type="text"
+              id="receiverName"
+              onChange={(event) => {
+                setData({ ...data, receiverName: event.target.value });
+              }}
+              maxLength={50}
+              placeholder="Beispielfirma GmbH"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-gray-700"
+            ></label>
+            <input
+              className="px-4 py-2 mt-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm rounded-md"
+              value={data?.receiverStreet}
+              type="text"
+              id="receiverStreet"
+              onChange={(event) => {
+                setData({ ...data, receiverStreet: event.target.value });
+              }}
+              maxLength={50}
+              placeholder="Beispielstraße 123"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="receiverPlzAndCity"
+              className="block text-sm font-medium text-gray-700"
+            ></label>
+            <input
+              className="px-4 py-2 mt-1 border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm rounded-md"
+              value={data?.receiverPlzAndCity}
+              type="text"
+              id="receiverPlzAndCity"
+              onChange={(event) => {
+                setData({
+                  ...data,
+                  receiverPlzAndCity: event.target.value.toString(),
+                });
+              }}
+              maxLength={50}
+              placeholder="12345, Beispielstadt"
+            />
+          </div>
+          <div className="flex flex-row justify-between pt-4">
+            <button
+              onClick={() => {
+                window.print();
+              }}
+              className="px-6 py-2 bg-white shadow-sm rounded-md hover:bg-gray-50 text-gray-900 font-bold border text-sm text-center"
+            >
+              Print
+            </button>
+            <button
+              className="px-6 py-2 bg-white shadow-sm rounded-md hover:bg-gray-50 text-gray-900 font-bold border text-sm text-center"
+              onClick={() => setData(init_data)}
+            >
+              Clear
+            </button>
+          </div>
+        </section>
+
+        {/* A4 Preview Section - 70% width */}
+        <section className="w-[75%] bg-white rounded-lg shadow-sm print:shadow-none print:w-full print-content">
+          <div className="w-full max-w-[210mm] mx-auto p-16 print:p-0 min-h-[297mm] bg-white">
+            <div className="space-y-2">
+              <div className="text-right"></div>
+              <div>
+                <p>
+                  Vor und nachname <br />
+                  straße 123
+                  <br />
+                  PLZ stadt <br />
+                </p>
+              </div>
+              <br />
+              <div>
+                <p>
+                  Firma GmbH <br />
+                  straße 123
+                  <br />
+                  PLZ stadt <br />
+                </p>
+              </div>
+              <div className="text-right">
+                <span>{content?.date}</span>
+              </div>
+              <div className="text-left font-medium">Betreff:</div>
+              <div>
+                Sehr geehrte Damen und Herren,
+                <br />
+                <br />
+                hiermit kündige ich meinen Internet-Zugang zum nächstmöglichen
+                Termin.
+                <br />
+                Bitte senden Sie mir in den nächsten Tagen eine
+                Kündigungsbestätigung mit Angabe des Vertragsende-Datums. Vielen
+                Dank im Voraus!
+              </div>
+              <div className="space-y-2">
+                <div>Mit freundlichen Grüßen</div>
+                <div> {data?.senderName}</div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="flex flex-col space-y-2 items-center justify-center w-full h-24 border-t print:hidden">
+
+        <div className="items-center flex flex-shrink-0 justify-center">
+          <span> Mit </span>
+          <span className="text-pink-600 px-1">
+            <svg
+              className="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          </span>
+          <span className="font-medium text-blue-600 hover:text-blue-700">
+            gemacht | MoA
+          </span>
+        </div>
       </footer>
     </div>
   );
